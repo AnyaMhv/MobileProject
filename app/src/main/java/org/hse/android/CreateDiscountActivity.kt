@@ -45,6 +45,7 @@ class CreateDiscountActivity : AppCompatActivity() {
     private lateinit var editTextTitle: EditText
     private lateinit var editTextDescription: EditText
     private lateinit var editTextDiscountLink: EditText
+
     //private lateinit var editTextImageLink: EditText
     private lateinit var editTextDefaultPrice: EditText
     private lateinit var editTextDiscountPrice: EditText
@@ -79,8 +80,13 @@ class CreateDiscountActivity : AppCompatActivity() {
         buttonAddImage.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 // Use new permission for Android 13 and above
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
                         Companion.REQUEST_PERMISSION
                     )
                 } else {
@@ -88,8 +94,13 @@ class CreateDiscountActivity : AppCompatActivity() {
                 }
             } else {
                 // Fallback on the general read external storage permission for earlier Android versions
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         Companion.REQUEST_PERMISSION
                     )
                 } else {
@@ -104,7 +115,11 @@ class CreateDiscountActivity : AppCompatActivity() {
         startActivityForResult(intent, Companion.REQUEST_IMAGE_PICK)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Companion.REQUEST_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -112,7 +127,11 @@ class CreateDiscountActivity : AppCompatActivity() {
                 selectImage()
             } else {
                 // Permission denied
-                Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Permission denied to read your External storage",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -153,24 +172,35 @@ class CreateDiscountActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         //Log.e("ImageLinkin", response.body?.string() + response.message)
                         if (response.isSuccessful) {
-                            Toast.makeText(this@CreateDiscountActivity, "Image uploaded successfully!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@CreateDiscountActivity,
+                                "Image uploaded successfully!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             imageLink = response.body!!.string()
                             //Log.e("TEST", response.body.toString())
                         } else {
-                            Toast.makeText(this@CreateDiscountActivity, "Failed to upload image", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@CreateDiscountActivity,
+                                "Failed to upload image",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.e("ImageLinkinError", e.toString())
-                    Toast.makeText(this@CreateDiscountActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@CreateDiscountActivity,
+                        "Error: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
 
     }
-
     private fun performCreationDiscount() {
         val title = editTextTitle.text.toString().trim()
         val description = editTextDescription.text.toString().trim()
