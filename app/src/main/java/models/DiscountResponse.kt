@@ -8,4 +8,6 @@ class DiscountResponse {
 
     @SerializedName("comments")
     var comments: List<Comment>? = null
+
+
 }
